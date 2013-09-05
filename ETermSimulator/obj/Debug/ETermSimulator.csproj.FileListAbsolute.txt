@@ -1,0 +1,5 @@
+D:\Projects\ETermSimulator\ETermSimulator\ETermSimulator\bin\Debug\ETermSimulator.exe
+D:\Projects\ETermSimulator\ETermSimulator\ETermSimulator\bin\Debug\ETermSimulator.pdb
+D:\Projects\ETermSimulator\ETermSimulator\ETermSimulator\obj\Debug\ETermSimulator.csprojResolveAssemblyReference.cache
+D:\Projects\ETermSimulator\ETermSimulator\ETermSimulator\obj\Debug\ETermSimulator.exe
+D:\Projects\ETermSimulator\ETermSimulator\ETermSimulator\obj\Debug\ETermSimulator.pdb
