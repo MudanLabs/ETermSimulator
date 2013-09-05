@@ -13,7 +13,7 @@ namespace MDLabs.EtermSimulator.SocketAgent
             int collectionId = 0;
             while (true)
             {
-                new AgentServer(agentServer.AcceptTcpClient(), collectionId);
+                new AgentServer2(agentServer.AcceptTcpClient(), collectionId);
                 collectionId++;
             }
         }

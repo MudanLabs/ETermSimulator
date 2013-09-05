@@ -70,7 +70,7 @@ namespace MDLabs.EtermSimulator.SocketAgent
         {
             string log = string.Format("{0}|{1}|{2}", id, type, str);
             Console.WriteLine(log);
-            System.IO.File.AppendAllText("Log.txt", log + System.Environment.NewLine);
+            //System.IO.File.AppendAllText("Log.txt", log + System.Environment.NewLine);
         }
         private static void Output(int id, string type, byte[] data, int length)
         {
@@ -82,7 +82,7 @@ namespace MDLabs.EtermSimulator.SocketAgent
                 log += string.Format("{0} ", data[i]);
             }
             Console.WriteLine(log);
-            System.IO.File.AppendAllText("Log.txt", log + System.Environment.NewLine);
+            //System.IO.File.AppendAllText("Log.txt", log + System.Environment.NewLine);
         }
         #endregion
     }
