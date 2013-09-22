@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketAgent", "SocketAgent\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETermSimulator", "ETermSimulator\ETermSimulator.csproj", "{0C5EDE5C-EE87-4456-B8AF-D031E54AB586}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketClient", "SocketClient\SocketClient.csproj", "{165F68ED-850D-43AD-8D5E-444C8C19BAA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{0C5EDE5C-EE87-4456-B8AF-D031E54AB586}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C5EDE5C-EE87-4456-B8AF-D031E54AB586}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C5EDE5C-EE87-4456-B8AF-D031E54AB586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{165F68ED-850D-43AD-8D5E-444C8C19BAA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{165F68ED-850D-43AD-8D5E-444C8C19BAA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{165F68ED-850D-43AD-8D5E-444C8C19BAA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{165F68ED-850D-43AD-8D5E-444C8C19BAA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

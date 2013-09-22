@@ -1,0 +1,6 @@
+D:\Projects\ETermSimulator\SocketClient\bin\Debug\SocketClient.exe.config
+D:\Projects\ETermSimulator\SocketClient\bin\Debug\SocketClient.exe
+D:\Projects\ETermSimulator\SocketClient\bin\Debug\SocketClient.pdb
+D:\Projects\ETermSimulator\SocketClient\obj\Debug\SocketClient.csprojResolveAssemblyReference.cache
+D:\Projects\ETermSimulator\SocketClient\obj\Debug\SocketClient.exe
+D:\Projects\ETermSimulator\SocketClient\obj\Debug\SocketClient.pdb

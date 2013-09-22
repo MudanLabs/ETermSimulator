@@ -3,3 +3,8 @@ D:\Projects\ETermSimulator\ETermSimulator\ConsoleApp\bin\Debug\ConsoleApp.pdb
 D:\Projects\ETermSimulator\ETermSimulator\ConsoleApp\obj\Debug\ConsoleApp.csprojResolveAssemblyReference.cache
 D:\Projects\ETermSimulator\ETermSimulator\ConsoleApp\obj\Debug\ConsoleApp.exe
 D:\Projects\ETermSimulator\ETermSimulator\ConsoleApp\obj\Debug\ConsoleApp.pdb
+D:\Projects\ETermSimulator\ConsoleApp\obj\Debug\ConsoleApp.exe
+D:\Projects\ETermSimulator\ConsoleApp\obj\Debug\ConsoleApp.pdb
+D:\Projects\ETermSimulator\ConsoleApp\bin\Debug\ConsoleApp.exe
+D:\Projects\ETermSimulator\ConsoleApp\bin\Debug\ConsoleApp.pdb
+D:\Projects\ETermSimulator\ConsoleApp\obj\Debug\ConsoleApp.csprojResolveAssemblyReference.cache
