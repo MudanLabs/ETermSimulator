@@ -23,10 +23,11 @@ namespace MDLabs.EtermSimulator.SocketAgent
                 int i = _TcpClient.GetStream().Read(receiveBuffer, 0, _TcpClient.ReceiveBufferSize);//开始读取客户端发送的数据
                 if (i > 0)
                 {
-                    string str = System.Text.ASCIIEncoding.GetEncoding("gb2312").GetString(receiveBuffer, 0, i);
+                    //string str = System.Text.ASCIIEncoding.GetEncoding("gb2312").GetString(receiveBuffer, 0, i);
+                    string str = System.Text.ASCIIEncoding.UTF8.GetString(receiveBuffer, 0, i);
                     agentClient.GetStream().Write(receiveBuffer, 0, i);//将客户端发送的数据 开始转发给 服务器
-                    Output(_CollectionID, "AS", str);
-                    Output(_CollectionID, "AS", receiveBuffer, i);
+                    Output(_CollectionID, "客户端gb2312", str);
+                    Output(_CollectionID, "客户端", receiveBuffer, i);
                 }
             }
         }
@@ -37,10 +38,11 @@ namespace MDLabs.EtermSimulator.SocketAgent
                 int j = agentClient.GetStream().Read(receiveBuffer, 0, agentClient.ReceiveBufferSize);//读取服务器返回的数据
                 if (j > 0)
                 {
-                    string str2 = System.Text.ASCIIEncoding.GetEncoding("gb2312").GetString(receiveBuffer, 0, j);
+                    //string str2 = System.Text.ASCIIEncoding.GetEncoding("gb2312").GetString(receiveBuffer, 0, j);
+                    string str2 = System.Text.ASCIIEncoding.UTF8.GetString(receiveBuffer, 0, j);
                     _TcpClient.GetStream().Write(receiveBuffer, 0, j);//转发给客户端
-                    Output(_CollectionID, "AC", str2);
-                    Output(_CollectionID, "AC", receiveBuffer, j);
+                    Output(_CollectionID, "服务器gb2312", str2);
+                    Output(_CollectionID, "服务器", receiveBuffer, j);
                 }
             }
         }
@@ -70,7 +72,7 @@ namespace MDLabs.EtermSimulator.SocketAgent
                 log += string.Format("{0} ", data[i]);
             }
             Console.WriteLine(log);
-            //System.IO.File.AppendAllText("Log.txt", log + System.Environment.NewLine);
+            System.IO.File.AppendAllText("Log.txt", log + System.Environment.NewLine);
         }
         #endregion
     }
