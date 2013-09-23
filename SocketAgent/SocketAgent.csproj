@@ -32,15 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SuperSocket.Common">
-      <HintPath>C:\Users\MUDAN\Desktop\tt\SuperSocket.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.SocketBase">
-      <HintPath>C:\Users\MUDAN\Desktop\tt\SuperSocket.SocketBase.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.SocketEngine">
-      <HintPath>C:\Users\MUDAN\Desktop\tt\SuperSocket.SocketEngine.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -53,11 +44,6 @@
   <ItemGroup>
     <Compile Include="AgentServer.cs" />
     <Compile Include="AgentServer2.cs" />
-    <Compile Include="AVanaly.cs" />
-    <Compile Include="ChineseToPinyin.cs" />
-    <Compile Include="EncodeMachine.cs" />
-    <Compile Include="Loging.cs" />
-    <Compile Include="NowClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
