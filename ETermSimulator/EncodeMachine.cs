@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Encoding;
 
 
 namespace ETermSimulator
@@ -11,62 +12,82 @@ namespace ETermSimulator
         //1.登陆编码
         //2.指令登陆
         #region 登陆编码
-        public byte[] LogEncode(string userName,string password,string strworkport,string strport ) 
+        public byte[] LogEncode(string user,string password,string mac,string ip,string version ) 
         {
-            string fixstr = "3847010";
-            byte[] LogSend = new byte[162];
-            byte[] user = System.Text.Encoding.Default.GetBytes(userName);
-            byte[] pass = System.Text.Encoding.Default.GetBytes(password);
-            byte[] port = System.Text.Encoding.Default.GetBytes(strport);//这个后
-            byte[] workport = System.Text.Encoding.Default.GetBytes(strworkport);//这个先
-            byte[] fixedstr = System.Text.Encoding.Default.GetBytes(fixstr);//
-            for (int i = 0; i < 162; i++) 
-            {
-                if (i == 0) LogSend[i] = 1;
-                if (i == 1) LogSend[i] = 162;
-                if (i > 1 && i < 2 + user.Length) //填充密码
-                {
-                    LogSend[i] = user[i - 2];
-                }
-                if (i >= user.Length + 2 && i < 2 + user.Length + 8) //填充8个0
-                {
-                    LogSend[i] = 0;
-                }
-                if (i >= 10 + user.Length && i < 10 + user.Length + pass.Length)//填充密码 
-                {
-                    LogSend[i] = pass[i - user.Length - 10];
-                }
-                if (i >= 10 + user.Length + pass.Length && i < 35 + user.Length + pass.Length) //填充后面的25个0
-                {
-                    LogSend[i] = 0;
-                }
-                if (i >= 35 + user.Length + pass.Length && i < 35 + user.Length + pass.Length + workport.Length)//填充端口号前面的 
-                {
-                    LogSend[i] = workport[i - 35 - user.Length - pass.Length];
-                }
-                if (i >= 35 + user.Length + pass.Length + workport.Length && i < 35 + user.Length + pass.Length + workport.Length + port.Length) //填充端口号
-                {
-                    LogSend[i] = port[i - 35 - user.Length - pass.Length - workport.Length];
-                }
-                if (i >= 35 + user.Length + pass.Length + workport.Length + port.Length && i < 37 + user.Length + pass.Length + workport.Length + port.Length) //后面添加两个空格
-                {
-                    LogSend[i] = 32;
-                }
-                if (i >= 37 + user.Length + pass.Length + workport.Length + port.Length && i < fixedstr.Length + 37 + user.Length + pass.Length + workport.Length + port.Length)//添加3847010 
-                {
-                    LogSend[i] = fixedstr[i - 37 - user.Length - pass.Length - workport.Length - port.Length];
-                }//还要填写6个0
-                if (i >= fixedstr.Length + 37 + user.Length + pass.Length + workport.Length + port.Length && i < fixedstr.Length + 44 + user.Length + pass.Length + workport.Length + port.Length)
-                {
-                    if (i == fixedstr.Length + 37 + user.Length + pass.Length + workport.Length + port.Length) LogSend[i] = 0;
-                    else LogSend[i] = 48;
-                }
-                if (i >= fixedstr.Length + 44 + user.Length + pass.Length + workport.Length + port.Length && i < 162) 
-                {
-                    LogSend[i] = 0;
-                }
-            }
-            return LogSend;
+            byte[] headArray = new byte[2] { 1, 0 };//instruction head,include head and length
+            byte[] userArray = new byte[16];//eTerm Username
+            Encoding.ASCII.GetBytes(user).CopyTo(userArray, 0);
+            byte[] passwordArray = new byte[32];//eTerm password
+            Encoding.ASCII.GetBytes(password).CopyTo(passwordArray, 0);
+            byte[] macArray = new byte[12];//eTerm client mac address
+            Encoding.ASCII.GetBytes(mac).CopyTo(macArray, 0);
+            byte[] ipArray = new byte[15];//eTerm client ip address
+            Encoding.ASCII.GetBytes(ip).CopyTo(ipArray, 0);
+            byte[] versionArray = new byte[8];//eTerm Version
+            Encoding.ASCII.GetBytes(version).CopyTo(versionArray, 0);
+            byte[] unKnownArray = new byte[77];//don't know
+            Encoding.ASCII.GetBytes("000000").CopyTo(unKnownArray, 0);
+
+            var rtnValue = headArray.Concat(userArray).Concat(passwordArray).Concat(macArray).Concat(ipArray).Concat(versionArray).Concat(unKnownArray).ToArray();
+            rtnValue[1] = (byte)rtnValue.Length;//update the instruction length
+            return rtnValue;
+
+
+            //string fixstr = "3847010";
+            //byte[] LogSend = new byte[162];
+            //byte[] user = System.Text.Encoding.Default.GetBytes(userName);
+            //byte[] pass = System.Text.Encoding.Default.GetBytes(password);
+            //byte[] port = System.Text.Encoding.Default.GetBytes(strport);//这个后
+            //byte[] workport = System.Text.Encoding.Default.GetBytes(strworkport);//这个先
+            //byte[] fixedstr = System.Text.Encoding.Default.GetBytes(fixstr);//
+            //user.Concat(
+            //for (int i = 0; i < 162; i++) 
+            //{
+            //    if (i == 0) LogSend[i] = 1;
+            //    if (i == 1) LogSend[i] = 162;
+            //    if (i > 1 && i < 2 + user.Length) //填充密码
+            //    {
+            //        LogSend[i] = user[i - 2];
+            //    }
+            //    if (i >= user.Length + 2 && i < 2 + user.Length + 8) //填充8个0
+            //    {
+            //        LogSend[i] = 0;
+            //    }
+            //    if (i >= 10 + user.Length && i < 10 + user.Length + pass.Length)//填充密码 
+            //    {
+            //        LogSend[i] = pass[i - user.Length - 10];
+            //    }
+            //    if (i >= 10 + user.Length + pass.Length && i < 35 + user.Length + pass.Length) //填充后面的25个0
+            //    {
+            //        LogSend[i] = 0;
+            //    }
+            //    if (i >= 35 + user.Length + pass.Length && i < 35 + user.Length + pass.Length + workport.Length)//填充端口号前面的 
+            //    {
+            //        LogSend[i] = workport[i - 35 - user.Length - pass.Length];
+            //    }
+            //    if (i >= 35 + user.Length + pass.Length + workport.Length && i < 35 + user.Length + pass.Length + workport.Length + port.Length) //填充端口号
+            //    {
+            //        LogSend[i] = port[i - 35 - user.Length - pass.Length - workport.Length];
+            //    }
+            //    if (i >= 35 + user.Length + pass.Length + workport.Length + port.Length && i < 37 + user.Length + pass.Length + workport.Length + port.Length) //后面添加两个空格
+            //    {
+            //        LogSend[i] = 32;
+            //    }
+            //    if (i >= 37 + user.Length + pass.Length + workport.Length + port.Length && i < fixedstr.Length + 37 + user.Length + pass.Length + workport.Length + port.Length)//添加3847010 
+            //    {
+            //        LogSend[i] = fixedstr[i - 37 - user.Length - pass.Length - workport.Length - port.Length];
+            //    }//还要填写6个0
+            //    if (i >= fixedstr.Length + 37 + user.Length + pass.Length + workport.Length + port.Length && i < fixedstr.Length + 44 + user.Length + pass.Length + workport.Length + port.Length)
+            //    {
+            //        if (i == fixedstr.Length + 37 + user.Length + pass.Length + workport.Length + port.Length) LogSend[i] = 0;
+            //        else LogSend[i] = 48;
+            //    }
+            //    if (i >= fixedstr.Length + 44 + user.Length + pass.Length + workport.Length + port.Length && i < 162) 
+            //    {
+            //        LogSend[i] = 0;
+            //    }
+            //}
+            //return LogSend;
         }
         #endregion
 
