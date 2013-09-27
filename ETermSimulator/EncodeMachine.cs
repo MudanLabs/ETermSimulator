@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Encoding;
 
 
 namespace ETermSimulator
@@ -261,6 +260,23 @@ namespace ETermSimulator
             return rtn;
         }
         #endregion
+
+
+        #endregion
+
+        #region
+        public byte[] TestA() 
+        {
+            byte[] firstTest = { 1, 254, 0, 17, 20, 16, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            return firstTest;
+        }
+        #endregion
+        #region 第二组测试
+        public byte[] TestB() 
+        {
+            byte[] secondTest = { 1, 254, 0, 17, 20, 16, 0, 2, 12, 0, 0, 0, 0, 0, 0, 0, 0, 1, 254, 0, 17, 20, 16, 0, 2, 41, 0, 0, 0, 0, 0, 0, 0, 0, 1, 254, 0, 17, 20, 16, 0, 2, 32, 0, 0, 0, 0, 0, 0, 0, 0 };
+            return secondTest;
+        }
         #endregion
     }
 }
