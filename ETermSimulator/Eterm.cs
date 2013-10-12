@@ -30,10 +30,8 @@ namespace ETermSimulator
             {
                 Console.Write("Eterm User Name:");
                 _EtermUserName = Console.ReadLine();
-                Console.WriteLine();
                 Console.Write("Eterm Password:");
                 _EtermPassword = Console.ReadLine();
-                Console.WriteLine();
                 Send(Loing());
                 byte[] receiveBuffer = new byte[_TcpClient.ReceiveBufferSize];
                 int receiveLength =_TcpClient.GetStream().Read(receiveBuffer, 0, receiveBuffer.Length);
