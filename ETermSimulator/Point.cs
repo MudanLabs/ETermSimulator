@@ -7,7 +7,15 @@ namespace ETermSimulator
 {
     public struct Point
     {
-        public Int16 Row { get; set; }
-        public Int16 Column { get; set; }
+        public Point(Int16 row, Int16 column)
+        {
+            _Row = row;
+            _Column = column;
+        }
+        private Int16 _Row;
+        public Int16 Row { get { return _Row; } private set { _Row = value; } }
+
+        private Int16 _Column;
+        public Int16 Column { get { return _Column; } private set { _Column = value; } }
     }
 }
