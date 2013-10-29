@@ -43,7 +43,7 @@ namespace ETermSimulatorTest
             var po = new PrivateObject(new BaseResp(null));
             byte[] arg = new byte[] { 27,14,73,79,58,35,53,88,71,120,76,108,70,120,84,36,35,40};
             var r = (string)po.Invoke("DealFuncGb2312Flag", new object[] { arg });
-            Assert.AreEqual(r, "上海地区天气预报");
+            Assert.AreEqual(r, "上海地区天气预（");
         }
         [TestMethod]
         public void DealFuncGb2312Flag_最低气温()
@@ -64,9 +64,29 @@ namespace ETermSimulatorTest
         #endregion
 
         #region DealFuncPointFlag
+
         #endregion
 
         #region DealFuncASCIIFlag
+        [TestMethod]
+        public void DealFuncASCIIFlag_Test()
+        {
+            var po = new PrivateObject(new BaseResp(null));
+            byte[] arg = new byte[] {27,15,32,51,50,67,40,57,48,70,41,44,32};
+            var r = (string)po.Invoke("DealFuncASCIIFlag", new object[] { arg });
+            Assert.AreEqual(r, " 32C(90F), ");
+        }
+        #endregion
+
+        #region BaseResp
+        [TestMethod]
+        public void BaseResp_Test()
+        {
+            byte[] arg = new byte[] { 1, 0, 1, 194, 0, 0, 0, 1, 40, 81, 112, 2, 27, 11, 49, 32, 15, 27, 77, 27, 14, 73, 79, 58, 35, 53, 88, 71, 120, 76, 108, 70, 120, 84, 36, 35, 40, 27, 15, 58, 32, 32, 32, 13, 32, 32, 32, 32, 32, 57, 27, 14, 84, 66, 27, 15, 50, 52, 27, 14, 72, 85, 27, 15, 32 ,27,98,13,30,27,98,3};
+            var r = new BaseResp(arg);
+            var except = "上海地区天气预（:   \r     9月24日 ";
+            Assert.AreEqual(except, r.Text);
+        }
         #endregion
 
     }

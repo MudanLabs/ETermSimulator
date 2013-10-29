@@ -18,23 +18,31 @@ namespace ETermSimulator
 
         public BaseResp(byte[] receiveBuffer)
         {
-            if (receiveBuffer != null)
+            if (receiveBuffer != null && receiveBuffer.Length>2)
             {
-                Buffer = receiveBuffer;
-                List<byte[]> segments = SplitSegments(receiveBuffer);
-                foreach (var segment in segments)
+                if (receiveBuffer[0] == 1 && receiveBuffer[1] == 0)
                 {
-                    switch (segment[1])
+                    Buffer = receiveBuffer;
+                    List<byte[]> segments = SplitSegments(receiveBuffer);
+                    if (Text == null)
+                        Text = "";
+                    foreach (var segment in segments)
                     {
-                        case FuncPointFlag:
-                            StartPoint = DealFuncPointFlag(segment);
-                            break;
-                        case FuncGb2312Flag:
-                            Text += DealFuncGb2312Flag(segment);
-                            break;
-                        case FuncASCIIFlag:
-                            Text += DealFuncASCIIFlag(segment);
-                            break;
+                        switch (segment[1])
+                        {
+                            case FuncPointFlag:
+                                StartPoint = DealFuncPointFlag(segment);
+                                break;
+                            case FuncGb2312Flag:
+                                Text += DealFuncGb2312Flag(segment);
+                                break;
+                            case FuncASCIIFlag:
+                            case FuncTextContentStartFlag:
+                                Text += DealFuncASCIIFlag(segment);
+                                break;
+                            default:
+                                continue;
+                        }
                     }
                 }
             }

@@ -80,6 +80,8 @@ namespace ETermSimulator
                         Console.Write("{0},", receiveBuffer[i]);
                     }
                     Console.WriteLine();
+                    var resp = new BaseResp(receiveBuffer);
+                    Console.Write(resp.Text);
                 }
             }
         }
