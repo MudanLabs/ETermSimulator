@@ -11,14 +11,15 @@ namespace ETermSimulator
         private const byte RespContentEndFlag = 3;
         private const byte RespContentFuncFlag = 27;
         private const byte FuncPointFlag = 11;
-        private const byte FuncGb2312Flag = 14;
+        private const byte FuncGBKFlag = 14;//include(GB2312 and infrequently used character)
+        private const byte FuncGBKInfrequentFlag = 120;//flag of infrequently used character
         private const byte FuncASCIIFlag = 15;
         private const byte FuncTextContentStartFlag = 77;
 
 
         public BaseResp(byte[] receiveBuffer)
         {
-            if (receiveBuffer != null && receiveBuffer.Length>2)
+            if (receiveBuffer != null && receiveBuffer.Length > 2)
             {
                 if (receiveBuffer[0] == 1 && receiveBuffer[1] == 0)
                 {
@@ -33,8 +34,8 @@ namespace ETermSimulator
                             case FuncPointFlag:
                                 StartPoint = DealFuncPointFlag(segment);
                                 break;
-                            case FuncGb2312Flag:
-                                Text += DealFuncGb2312Flag(segment);
+                            case FuncGBKFlag:
+                                Text += DealFuncGBKFlag(segment);
                                 break;
                             case FuncASCIIFlag:
                             case FuncTextContentStartFlag:
@@ -55,13 +56,27 @@ namespace ETermSimulator
         }
         #endregion
 
-        #region deal Gb2312Flag
-        private string DealFuncGb2312Flag(byte[] segment)
+        #region deal GBKFlag
+        private string DealFuncGBKFlag(byte[] segment)
         {
-            Encoding gb2312Encoding = System.Text.Encoding.GetEncoding("gb2312");
-            for (int i = 2; i <segment.Length; i++)
-                segment[i] += 128;
-            return gb2312Encoding.GetString(segment, 2, segment.Length - 2);
+            List<byte> GBKList = new List<byte>();
+            for (int i = 0; i < segment.Length; i++)
+            {
+                if (i < 2)//head
+                    continue;
+                if (segment[i] != FuncGBKInfrequentFlag)//frequently used character
+                    GBKList.Add((byte)(segment[i]+128));
+                else//infrequently used character
+                {
+                    byte a = (byte)(((segment[i + 1] + 0x1) << 4) & 0xF0 & ((segment[i + 2] + 0x1) >> 2 & 0xF));
+                    byte b = (byte)((segment[i + 3] + 0x1) + ((segment[i + 2] & 0x2) << 6));
+                    GBKList.Add(a);
+                    GBKList.Add(b);
+                    i = i + 3;
+                }
+            }
+            Encoding gbkEncoding = System.Text.Encoding.GetEncoding("GBK");
+            return gbkEncoding.GetString(GBKList.ToArray());
         }
         #endregion
 

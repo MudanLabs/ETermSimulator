@@ -36,30 +36,30 @@ namespace ETermSimulatorTest
         }
         #endregion
 
-        #region DealFuncGb2312Flag
+        #region DealFuncGBKFlag
         [TestMethod]
-        public void DealFuncGb2312Flag_上海地区天气预报()
+        public void DealFuncGBKFlag_GB2312SpecialCharacter()////上海地区天气预报 “报” is a special character!
         {
             var po = new PrivateObject(new BaseResp(null));
             byte[] arg = new byte[] { 27,14,73,79,58,35,53,88,71,120,76,108,70,120,84,36,35,40};
-            var r = (string)po.Invoke("DealFuncGb2312Flag", new object[] { arg });
+            var r = (string)po.Invoke("DealFuncGBKFlag", new object[] { arg });
             Assert.AreEqual(r, "上海地区天气预（");
         }
         [TestMethod]
-        public void DealFuncGb2312Flag_最低气温()
-        {
-            var po = new PrivateObject(new BaseResp(null));
-            byte[] arg = new byte[] { 27,14,87,110,53,77,70,120,78,66};
-            var r = (string)po.Invoke("DealFuncGb2312Flag", new object[] { arg });
-            Assert.AreEqual(r, "最低气温");
-        }
-        [TestMethod]
-        public void DealFuncGb2312Flag_多云转中雨()
+        public void DealFuncGBKFlag_GB2312NormalCharacter()//多云转中雨
         { 
             var po = new PrivateObject(new BaseResp(null));
             byte[] arg = new byte[] { 27,14,54,96,84,70,87,42,86,80,83,106};
-            var r = (string)po.Invoke("DealFuncGb2312Flag", new object[] { arg });
+            var r = (string)po.Invoke("DealFuncGBKFlag", new object[] { arg });
             Assert.AreEqual(r, "多云转中雨");
+        }
+        [TestMethod]
+        public void DealFuncGBKFlag_GBKInfrequentlyUsedCharacter()//朱镕基 “镕” is not a frequently used character
+        {
+            var po = new PrivateObject(new BaseResp(null));
+            byte[] arg = new byte[] { 27,14,86, 108, 120, 77, 100, 69, 59, 121 };
+            var r = (string)po.Invoke("DealFuncGBKFlag", new object[] { arg });
+            Assert.AreEqual(r, "朱镕基");
         }
         #endregion
 
