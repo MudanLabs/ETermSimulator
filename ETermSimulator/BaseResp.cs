@@ -68,7 +68,7 @@ namespace ETermSimulator
                     GBKList.Add((byte)(segment[i]+128));
                 else//infrequently used character
                 {
-                    byte a = (byte)(((segment[i + 1] + 0x1) << 4) & 0xF0 & ((segment[i + 2] + 0x1) >> 2 & 0xF));
+                    byte a = (byte)((((segment[i + 1] + 0x1) << 4) & 0xF0) | ((segment[i + 2] >> 2) & 0xF));
                     byte b = (byte)((segment[i + 3] + 0x1) + ((segment[i + 2] & 0x2) << 6));
                     GBKList.Add(a);
                     GBKList.Add(b);
