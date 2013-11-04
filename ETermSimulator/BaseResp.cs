@@ -14,36 +14,42 @@ namespace ETermSimulator
         private const byte FuncGBKFlag = 14;//include(GB2312 and infrequently used character)
         private const byte FuncGBKInfrequentFlag = 120;//flag of infrequently used character
         private const byte FuncASCIIFlag = 15;
+        private const byte FuncASCIIFlag2 = 98;
         private const byte FuncTextContentStartFlag = 77;
+        private const byte FuncTabStopFlag = 9;//TabStop
+
+        private const byte FuncSOEFlag = 30;//SOE
+
 
 
         public BaseResp(byte[] receiveBuffer)
         {
-            if (receiveBuffer != null && receiveBuffer.Length > 2)
+            if (receiveBuffer != null && receiveBuffer.Length > 13 && receiveBuffer[0] == 1 && receiveBuffer[1] == 0)
             {
-                if (receiveBuffer[0] == 1 && receiveBuffer[1] == 0)
+                int respLength = receiveBuffer[2] * 256 + receiveBuffer[3];
+                Buffer = new byte[respLength];
+                Array.Copy(receiveBuffer,Buffer,respLength);
+                List<byte[]> segments = SplitSegments(Buffer);
+                if (Text == null)
+                    Text = "";
+                foreach (var segment in segments)
                 {
-                    Buffer = receiveBuffer;
-                    List<byte[]> segments = SplitSegments(receiveBuffer);
-                    if (Text == null)
-                        Text = "";
-                    foreach (var segment in segments)
+                    switch (segment[1])
                     {
-                        switch (segment[1])
-                        {
-                            case FuncPointFlag:
-                                StartPoint = DealFuncPointFlag(segment);
-                                break;
-                            case FuncGBKFlag:
-                                Text += DealFuncGBKFlag(segment);
-                                break;
-                            case FuncASCIIFlag:
-                            case FuncTextContentStartFlag:
-                                Text += DealFuncASCIIFlag(segment);
-                                break;
-                            default:
-                                continue;
-                        }
+                        case FuncPointFlag:
+                            StartPoint = DealFuncPointFlag(segment);
+                            break;
+                        case FuncGBKFlag:
+                            Text += DealFuncGBKFlag(segment);
+                            break;
+                        case FuncASCIIFlag:
+                        case FuncASCIIFlag2:
+                        case FuncTabStopFlag:
+                        case FuncTextContentStartFlag:
+                            Text += DealFuncASCIIFlag(segment);
+                            break;
+                        default:
+                            continue;
                     }
                 }
             }
@@ -90,8 +96,16 @@ namespace ETermSimulator
         #region deal ASCIIFlag
         private string DealFuncASCIIFlag(byte[] segment)
         {
+            List<byte> AssciiList = new List<byte>();
+            for (int i = 0; i < segment.Length; i++)
+            {
+                if (i < 2)//head
+                    continue;
+                if (segment[i] != FuncSOEFlag)
+                    AssciiList.Add(segment[i]);
+            }
             Encoding assciiEncoding = new System.Text.ASCIIEncoding();
-            return assciiEncoding.GetString(segment, 2, segment.Length - 2);
+            return assciiEncoding.GetString(AssciiList.ToArray());
         }
         #endregion
 

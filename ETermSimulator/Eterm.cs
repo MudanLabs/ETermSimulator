@@ -81,7 +81,14 @@ namespace ETermSimulator
                     }
                     Console.WriteLine();
                     var resp = new BaseResp(receiveBuffer);
-                    Console.Write(resp.Text);
+                    if (!string.IsNullOrWhiteSpace(resp.Text))
+                    {
+                        var lines = resp.Text.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var line in lines)
+                        {
+                            Console.WriteLine(line);
+                        }
+                    }
                 }
             }
         }
