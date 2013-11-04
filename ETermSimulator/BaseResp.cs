@@ -65,7 +65,14 @@ namespace ETermSimulator
                 if (i < 2)//head
                     continue;
                 if (segment[i] != FuncGBKInfrequentFlag)//frequently used character
-                    GBKList.Add((byte)(segment[i]+128));
+                {
+                    if (segment[i] < 37)
+                        GBKList.Add((byte)(segment[i] + 142));
+                    else
+                        GBKList.Add((byte)(segment[i] + 128));
+                    GBKList.Add((byte)(segment[i + 1] + 128));
+                    i++;
+                }
                 else//infrequently used character
                 {
                     byte a = (byte)((((segment[i + 1] + 0x1) << 4) & 0xF0) | ((segment[i + 2] >> 2) & 0xF));
