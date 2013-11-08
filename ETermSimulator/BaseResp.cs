@@ -72,11 +72,21 @@ namespace ETermSimulator
                     continue;
                 if (segment[i] != FuncGBKInfrequentFlag)//frequently used character
                 {
-                    if (segment[i] < 37)
-                        GBKList.Add((byte)(segment[i] + 142));
-                    else
-                        GBKList.Add((byte)(segment[i] + 128));
-                    GBKList.Add((byte)(segment[i + 1] + 128));
+
+                    var judge = 0x2f <= segment[i] + 0xa && segment[i] + 0xa <= 0x32;
+                    var first = judge ? segment[i+1] : segment[i];
+                    var second = judge ? segment[i] : segment[i+1];
+                    first = (byte)first - 0xe >= 0x24 ? (byte)(first - 0xe) : first;
+                    first = (byte)(first - 0x72);
+                    second = judge ? (byte)(second + 0xa) : second;
+                    second = (byte)(second - 0x80);
+                    GBKList.Add(first);
+                    GBKList.Add(second);
+                    //if (segment[i] < 37)
+                    //    GBKList.Add((byte)(segment[i] + 142));
+                    //else
+                    //    GBKList.Add((byte)(segment[i] + 128));
+                    //GBKList.Add((byte)(segment[i + 1] + 128));
                     i++;
                 }
                 else//infrequently used character

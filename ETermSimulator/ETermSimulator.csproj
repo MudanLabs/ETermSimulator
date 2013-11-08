@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DETRResp.cs" />
     <Compile Include="EncodeMachine.cs" />
     <Compile Include="Eterm.cs" />
     <Compile Include="Point.cs" />
